@@ -97,6 +97,15 @@
     ";
    }
   
+   if($status="في الاستقبال"){
+       echo '1EZEZE';
+   }elseif ($status="تجهيز") {
+        echo '2';
+    } elseif ($status="في مكتب تحرير") {
+    echo '3';
+} {
+        
+    }
     }
    ?>  
 </center>

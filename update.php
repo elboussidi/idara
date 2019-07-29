@@ -99,7 +99,7 @@ if(!$reedqr2){
        
      
   }else {
-      echo $pass.$password; 
+      echo $pass;
     echo '  <div class="alert alert-danger" role="alert">
     رمز التحقق غير صحيح
 </div>';

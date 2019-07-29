@@ -23,12 +23,17 @@
  
 </ul>
         <?php
-        
+        if(isset($_POST['su'])){
+            
+        }
         
         
     if(isset($_POST['submit'])){
+ 
+
     $name = mysqli_real_escape_string($conect, $_POST['name']);
-      $status=$_POST['status'];
+      $status= mysqli_real_escape_string($conect, $_POST['status']);
+       $email=$_POST['email'];
   if(empty($name)){
       echo '
  <script>
@@ -37,19 +42,18 @@
 ';
   } else {
     
-   $aadmin="INSERT INTO `info` 
-          (`id`, `name`, `status`) 
-          VALUES
-            ('', '$name', '$status')";
+   $aadmin="INSERT INTO `info` (`id`, `name`, `status`, `date`, `email`) VALUES (NULL, '$name', '$status', CURRENT_TIMESTAMP,  '$email')";
    $qty=mysqli_query($conect, $aadmin);
    
    if($qty){
      //  header("location:lsadmin.php");
+       $last_id = $conect->insert_id;
       echo ' <div class="alert alert-success">  تم اضافة البيانات بنجاح   جاري تحويل لصفحة الطلبات</div>';
-     echo '<meta http-equiv="refresh" content="2; \'show.php\' /> " ';
+    echo '<meta http-equiv="refresh" content="2; \'show.php?m='.$last_id.'&mm='.$email.' \'  /> " ';
 
-
-    }  
+    } else {
+        die(mysqli_error($conect)) ;   
+    }
     }   }
     
     ?>
@@ -60,12 +64,19 @@
            <h1>  ajoute info</h1>
 </div>
   <br><br><br>
-        <form method="POST"  style="width: 50%;">
+  <form method="POST"  style="width: 50%;" action="">
            
-       الاسم <br>
-       <input type="text" name="name" style=" width: 50%; "><br><br>
+        
+  <div class="row">
+    <div class="col"><br> 
+      الاسم <br>  <input type="text" name="name" class="form-control" placeholder="name">
+    </div>
+    <div class="col"><br> 
+    البريدالالكتروني <br>    <input type="email" name="email" class="form-control" placeholder="email">
+    </div>
+  </div>
+<br><br>
        
-  
 <div class="input-group mb-3">
   <div class="input-group-prepend">
     <span class="input-group-text" id="inputGroup-sizing-default">حالة الطلب</span>
@@ -78,10 +89,12 @@
     <option >جاهز للتسليم</option>
    
   </select>
-</div>
+</div> رمز التحقق <br>
+<input type="text" name="pass" style=" width: 50%; "><br><br>
 <br>
       
          <input type="submit" name="submit" value="حفض الطلب" class="btn btn-primary">
+          <input type="submit" name="su" value="حفض الطلب" class="btn btn-danger">
        </form>
     </center>    
     <script type="text/javascript" src="js/bootstrap.min.js" >

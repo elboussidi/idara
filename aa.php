@@ -1,23 +1,34 @@
-<?php
+<!DOCTYPE html>
+<html>
+<head>
+	<title> suivi</title>
+            <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-$localhost="localhost";
-$username="root";
-$password="";
-$database="script";
-$conect=mysqli_connect($localhost,$username,$password,$database);
+    <link type="text/css" href="css/bootstrap.min.css" rel="stylesheet" >
+</head>
+<body dir="rtl">
+    <form method="POST"  >
+        <input type="submit" name="submit">
+        
+    </form>  
+    
 
-if(!$conect){
-    die("عذرا لم يتم الاتصال بقاعدة البيانات");
-}
- else {
-   echo 'تم الاتصال بنجاح  ';
- }
-?>
-
-
-<?php
-
-$info= mysqli_insert_id($conect) ;
-echo $info;
-
-?>
+   <?php 
+  if(isset($_POST['submit'])){
+     
+      
+      
+      $headers="from : majid" ;
+      $subject="cantact form";
+      $message=$_POST['msg']; ;
+      $email=$_POST['email'];
+      mail($email, $subject, $message , $headers);
+      echo 'your imail is send';
+      
+  }
+   ?>  
+    
+</center>
+</body>
+</html>

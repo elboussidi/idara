@@ -8,7 +8,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="CSS/bootstrap.min.css">
- 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     </head>
     <body dir="rtl">
                 <ul class="nav nav-tabs">
@@ -36,6 +36,9 @@
                         <th>
                            صاحب الطلب
                         </th>
+                         <th>
+                 البريد
+                        </th>
                         
                              <th>
                           الحالة
@@ -46,11 +49,14 @@
                            <th>
                          تحرير
                         </th>
+                        
+                        
                     </tr>
                 </thead>
                 <tbody>
             
-   <?php  
+   <?php   $ids=mysqli_insert_id($conect); 
+             echo $ids;
       $sqlcom="SELECT * FROM `info` ";
 
       $sq3= mysqli_query($conect, $sqlcom);
@@ -62,6 +68,7 @@
                 $id=$row3['id'];
                  $name=$row3['name'];
                 $status=$row3['status'];
+                $email=$row3['email'];
              $date=$row3['date'];
                  $tot= mysqli_num_rows($sq3);
 
@@ -74,6 +81,9 @@
                           $name
                         </td>
                         <td>
+                          $email
+                        </td>
+                        <td>
                            $status
                         </td><td>
                            $date
@@ -83,11 +93,11 @@
                        <a href='update.php?id=$id'> <button type='button'  title='تعديل' class='btn btn-primary'>تعديل</button></a> 
                         
                         </td>
+                       
                     </tr>
              </tbody>
         ";
-       
-}
+      }
 //'
                     
 //  if(empty($autcom)){
@@ -97,8 +107,33 @@
  الطلبات
  ('. $tot.') </h3>';
                 }
+                if(isset($_GET['m']) AND isset($_GET['mm'])   ){
+                    
+                   $iid= $_GET['m'];
+                    $emaill=$_GET['mm'];
+                    
+   $headers="from : majid" ;
+      $subject="رقم تتبع";
+      $message="
+             مرحبا:$name
+            رقم الخاص بكم : $iid
+                https://earthly-strikers.000webhostapp.com/suivi.php يمكنكم تتبع طلبكم عبرالرابط التالي 
+             
+                 
+              عبدالمجيد البوسعيدي
+              "
+               ;
+   if(
+      mail($emaill, $subject, $message , $headers) )  {
+       echo '<script> alert("تم الارسال");  location.replace ("show.php"); </script>';
+      } else {
+            echo '<script> alert(" '. mysqli_error($conect).'");  location.replace ("show.php"); </script>';
+      }
+        
                 
-      ?> 
+}    
+                
+   ?>
 </table></center>
 </body>
 </html>
